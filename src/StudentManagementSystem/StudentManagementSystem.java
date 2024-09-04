@@ -23,13 +23,13 @@ public class StudentManagementSystem extends JFrame implements ActionListener {
     JTable studentTable;
     DefaultTableModel tableModel;
 
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/student";
-    private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "user";
+    private static final String DB_URL = "jdbc:postgresql://localhost:5432/students";
+    private static final String DB_USER = "postgres";
+    private static final String DB_PASSWORD = "8859";
     private Connection connection;
 
     public StudentManagementSystem() {
-        setTitle("Student Management System by Group 5");
+        setTitle("Student Management System ");
         setLayout(null);
         setSize(1000, 600);
         setVisible(true);
@@ -256,7 +256,7 @@ public class StudentManagementSystem extends JFrame implements ActionListener {
 
     private void connectToDatabase() {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("org.postgresql.Driver");
             connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/students","postgres", "8859");
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
@@ -291,7 +291,7 @@ public class StudentManagementSystem extends JFrame implements ActionListener {
     private void loadStudentDataFromDatabase() {
         try {
             String selectQuery = "SELECT student_name, student_id, student_grade, DATE_FORMAT(dob, '%d-%m-%Y'), gender, contact, email FROM students";
-            PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+            PreparedStatement preparedStatement = connection.prepareStatement( selectQuery);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
